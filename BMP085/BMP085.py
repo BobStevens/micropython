@@ -13,12 +13,12 @@ import time
   
 class BMP085 :
   i2c = None
-
+  # I guess these can be public
   # Operating Modes
-  __BMP085_ULTRALOWPOWER     = 0
-  __BMP085_STANDARD          = 1
-  __BMP085_HIGHRES           = 2
-  __BMP085_ULTRAHIGHRES      = 3
+  BMP085_ULTRALOWPOWER     = 0
+  BMP085_STANDARD          = 1
+  BMP085_HIGHRES           = 2
+  BMP085_ULTRAHIGHRES      = 3
 
   # BMP085 Registers
   __BMP085_CAL_AC1           = 0xAA  # R   Calibration data (16 bits)
@@ -61,7 +61,7 @@ class BMP085 :
     if ((mode < 0) | (mode > 3)):
       if (self.debug):
         print("Invalid Mode: Using STANDARD by default")
-      self.mode = self.__BMP085_STANDARD
+      self.mode = self.BMP085_STANDARD
     else:
       self.mode = mode
     # Read the calibration data
@@ -122,11 +122,11 @@ class BMP085 :
   def readRawPressure(self):
     "Reads the raw (uncompensated) pressure level from the sensor"
     self.i2c.mem_write(self.__BMP085_READPRESSURECMD + (self.mode << 6), self.address, self.__BMP085_CONTROL)
-    if (self.mode == self.__BMP085_ULTRALOWPOWER):
+    if (self.mode == self.BMP085_ULTRALOWPOWER):
       time.sleep(0.005)
-    elif (self.mode == self.__BMP085_HIGHRES):
+    elif (self.mode == self.BMP085_HIGHRES):
       time.sleep(0.014)
-    elif (self.mode == self.__BMP085_ULTRAHIGHRES):
+    elif (self.mode == self.BMP085_ULTRAHIGHRES):
       time.sleep(0.026)
     else:
       time.sleep(0.008)
@@ -192,7 +192,7 @@ class BMP085 :
       self._cal_AC2 = -72
       self._cal_AC1 = 408
       self._cal_AC4 = 32741
-      self.mode = self.__BMP085_ULTRALOWPOWER
+      self.mode = self.BMP085_ULTRALOWPOWER
       if (self.debug):
         self.showCalibrationData()
 
