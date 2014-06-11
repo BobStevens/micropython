@@ -1,6 +1,6 @@
 #!/usr/bin/python
 """
-An plot of acceleromenter data
+A plot of acceleromenter and barometer data
 args: see usage()
 """
 __author__ = """Bob Stevens - https://github.com/BobStevens"""
@@ -29,7 +29,7 @@ def usage():
 plotdata.py [options ...] file
 -h, --help             help
 -v, --verbose          verbose
-log file must be formatted as: time,x,y,z
+log file must be formatted as: time,x,y,z,temp,altitude
   """
   print usage
 
@@ -68,7 +68,7 @@ def main(argv=None):
   fileName, fileExtension = os.path.splitext(inputfile)
   if verbose: print("loading data from " + inputfile)
   # generate plot data from txt file
-  data = N.genfromtxt(inputfile, delimiter=',', names=['time','x', 'y', 'z'])
+  data = N.genfromtxt(inputfile, delimiter=',', names=['time','x', 'y', 'z', 'temp','alt'])
   if verbose: print(data)
   # reduce margins
   pars = matplotlib.figure.SubplotParams(top=0.9,right=0.95,bottom=0.1,left=0.05)
@@ -81,6 +81,8 @@ def main(argv=None):
   ax1.plot(data['time'], data['x'], marker="", color='b', label='x')
   ax1.plot(data['time'], data['y'], marker="", color='r', label='y')
   ax1.plot(data['time'], data['z'], marker="", color='g', label='z')
+  ax1.plot(data['time'], data['temp'], marker="", color='c', label='Temp')
+  ax1.plot(data['time'], data['alt'], marker="", color='m', label='Alt')
   # add legend
   leg = ax1.legend()
   # save as png
