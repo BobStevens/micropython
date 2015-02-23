@@ -14,6 +14,8 @@ import time
 class BMP085 :
   i2c = None
   # I guess these can be public
+  # I2C address
+  BMP085_ADDRESS           = 0x77
   # Operating Modes
   BMP085_ULTRALOWPOWER     = 0
   BMP085_STANDARD          = 1
@@ -52,7 +54,7 @@ class BMP085 :
   _cal_MD = 0
 
   # Constructor
-  def __init__(self, port = 1, address=0x77, mode=1, debug=False):
+  def __init__(self, port=1, address=BMP085_ADDRESS, mode=BMP085_STANDARD, debug=False):
     self.i2c = I2C(port, I2C.MASTER)
 
     self.address = address
